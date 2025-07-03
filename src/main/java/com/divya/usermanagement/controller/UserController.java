@@ -19,6 +19,10 @@ public class UserController {
         model.addAttribute("listUser", listUser);
         return "user-list";
     }
+@GetMapping("/")
+    public String home() {
+        return "redirect:/list";
+    }
 
     @GetMapping("/new")
     public String showNewForm(Model model) {
