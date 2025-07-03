@@ -1,14 +1,12 @@
-# Use an official Java runtime as a parent image
+# === Stage 1: Build with Maven ===
+FROM maven:3.9.6-eclipse-temurin-17 AS builder
+WORKDIR /build
+COPY . .
+RUN mvn clean package -DskipTests
+
+# === Stage 2: Run with JDK 17 ===
 FROM eclipse-temurin:17-jdk
-
-# Set the working directory in the container
 WORKDIR /app
-
-# Copy the built jar from your local machine to the container
-COPY target/usermanagement-0.0.1-SNAPSHOT.jar app.jar
-
-# Expose port 8080 to the outside
+COPY --from=builder /build/target/*.jar app.jar
 EXPOSE 8080
-
-# Run the jar file
 ENTRYPOINT ["java", "-jar", "app.jar"]
