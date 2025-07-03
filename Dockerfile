@@ -1,10 +1,10 @@
-# === Stage 1: Build with Maven ===
+# ---------- Stage 1: Build ----------
 FROM maven:3.9.6-eclipse-temurin-17 AS builder
 WORKDIR /build
 COPY . .
 RUN mvn clean package -DskipTests
 
-# === Stage 2: Run with JDK 17 ===
+# ---------- Stage 2: Run ----------
 FROM eclipse-temurin:17-jdk
 WORKDIR /app
 COPY --from=builder /build/target/*.jar app.jar
